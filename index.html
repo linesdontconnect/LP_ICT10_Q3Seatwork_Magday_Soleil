@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intramurals Eligibility Checker</title>
+    <style>
+        /* Global styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        /* Form container */
+        .form-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            margin-top: 20px;
+        }
+
+        /* Form elements */
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+            color: #34495e;
+        }
+
+        select, button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 2px solid #dcdcdc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #3498db;
+        }
+
+        /* Result display */
+        #result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .error {
+            color: #e74c3c;
+        }
+
+        .success {
+            color: #2ecc71;
+        }
+
+        /* Image Styling */
+        #team-img {
+            margin-top: 20px;
+            max-width: 250px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 8px;
+            border: 2px solid #dcdcdc;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Intramurals Eligibility Checker</h2>
+    <form id="intramuralsForm" onsubmit="checkEligibility(); return false;">
+        <label for="registered">Registered Online?</label>
+        <select id="registered">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+
+        <label for="medical">Medical Clearance?</label>
+        <select id="medical">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+
+        <label for="gradeSection">Grade Level & Section:</label>
+        <select id="gradeSection">
+            <option value="7 TOPAZ">7 TOPAZ</option>
+            <option value="7 RUBY">7 RUBY</option>
+            <option value="7 SAPPHIRE">7 SAPPHIRE</option>
+            <option value="7 EMERALD">7 EMERALD</option>
+            <option value="8 TOPAZ">8 TOPAZ</option>
+            <option value="8 RUBY">8 RUBY</option>
+            <option value="8 SAPPHIRE">8 SAPPHIRE</option>
+            <option value="8 EMERALD">8 EMERALD</option>
+            <option value="9 TOPAZ">9 TOPAZ</option>
+            <option value="9 RUBY">9 RUBY</option>
+            <option value="9 SAPPHIRE">9 SAPPHIRE</option>
+            <option value="9 EMERALD">9 EMERALD</option>
+            <option value="10 TOPAZ">10 TOPAZ</option>
+            <option value="10 RUBY">10 RUBY</option>
+            <option value="10 SAPPHIRE">10 SAPPHIRE</option>
+            <option value="10 EMERALD">10 EMERALD</option>
+        </select>
+
+        <button type="submit">Check Eligibility</button>
+    </form>
+
+    <div id="result"></div>
+    <img id="team-img" src="" alt="" style="display:none;"/>
+</div>
+
+<script>
+    function checkEligibility() {
+        var registered = document.getElementById("registered").value;
+        var medical = document.getElementById("medical").value;
+        var gradeSection = document.getElementById("gradeSection").value;
+        var result = document.getElementById("result");
+        var teamImg = document.getElementById("team-img");
+
+        var teams = {
+            "7 TOPAZ": "Green Hornets",
+            "7 RUBY": "Blue Bears",
+            "7 SAPPHIRE": "Red Bulldogs",
+            "7 EMERALD": "Yellow Tigers",
+            "8 TOPAZ": "Blue Bears",
+            "8 RUBY": "Red Bulldogs",
+            "8 SAPPHIRE": "Green Hornets",
+            "8 EMERALD": "Yellow Tigers",
+            "9 TOPAZ": "Yellow Tigers",
+            "9 RUBY": "Green Hornets",
+            "9 SAPPHIRE": "Blue Bears",
+            "9 EMERALD": "Red Bulldogs",
+            "10 TOPAZ": "Blue Bears",
+            "10 RUBY": "Red Bulldogs",
+            "10 SAPPHIRE": "Yellow Tigers",
+            "10 EMERALD": "Green Hornets"
+        };
+
+        // Change these image paths to your actual image files
+        var teamImages = {
+            "Green Hornets": "gh.jpg",
+            "Blue Bears": "bb.jpg",
+            "Red Bulldogs": "rb.jpg",
+            "Yellow Tigers": "yt.jpg"
+        };
+
+        if (registered === "no") {
+            result.innerHTML = "<p class='error'>You cannot join. Please register online first.</p>";
+            teamImg.style.display = "none";
+        } else if (medical === "no") {
+            result.innerHTML = "<p class='error'>You cannot join. Please secure a medical clearance.</p>";
+            teamImg.style.display = "none";
+        } else {
+            var team = teams[gradeSection];
+            result.innerHTML = "<p class='success'>Congratulations! You are eligible to join.<br>Your Intramurals team is: <b>" + team + "</b></p>";
+            teamImg.src = teamImages[team] || "";
+            teamImg.alt = team;
+            teamImg.style.display = teamImages[team] ? "block" : "none";
+        }
+    }
+</script>
+
+</body>
+</html>
